@@ -54,10 +54,10 @@ const activeTab = ref('basics')
 
     <!-- Content -->
     <main class="content">
-      <HelloWorld v-if="activeTab === 'basics'" msg="Vue 3 + Vite" />
-      <ComputedExample v-if="activeTab === 'computed'" />
-      <ListExample v-if="activeTab === 'lists'" />
-      <FormExample v-if="activeTab === 'forms'" />
+      <HelloWorld v-show="activeTab === 'basics'" msg="Vue 3 + Vite" />
+      <ComputedExample v-show="activeTab === 'computed'" />
+      <ListExample v-show="activeTab === 'lists'" />
+      <FormExample v-show="activeTab === 'forms'" />
     </main>
 
     <!-- Footer -->

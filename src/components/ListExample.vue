@@ -10,11 +10,12 @@ const todos = ref([
 
 const newTodo = ref('')
 const filter = ref('all') // 'all', 'active', 'completed'
+let nextId = 5
 
 const addTodo = () => {
   if (newTodo.value.trim()) {
     todos.value.push({
-      id: Date.now(),
+      id: nextId++,
       text: newTodo.value,
       completed: false
     })
