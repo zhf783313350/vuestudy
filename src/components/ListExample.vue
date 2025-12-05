@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const todos = ref([
   { id: 1, text: 'Learn Vue 3 basics', completed: true },
@@ -33,14 +33,14 @@ const removeTodo = (id) => {
   todos.value = todos.value.filter(t => t.id !== id)
 }
 
-const filteredTodos = () => {
+const filteredTodos = computed(() => {
   if (filter.value === 'active') {
     return todos.value.filter(t => !t.completed)
   } else if (filter.value === 'completed') {
     return todos.value.filter(t => t.completed)
   }
   return todos.value
-}
+})
 </script>
 
 <template>
@@ -78,13 +78,13 @@ const filteredTodos = () => {
         </button>
       </div>
 
-      <div v-if="filteredTodos().length === 0" class="empty">
+      <div v-if="filteredTodos.length === 0" class="empty">
         <p>No todos to display!</p>
       </div>
 
       <ul v-else class="todo-list">
         <li 
-          v-for="todo in filteredTodos()" 
+          v-for="todo in filteredTodos" 
           :key="todo.id"
           :class="{ completed: todo.completed }"
         >
