@@ -14,14 +14,12 @@
           <ul v-if="showSubMenu" class="sub-menu">
             <li 
               :class="{ 'active': activeItem === 'account' }" 
-              @click="selectMenu('account')"
-            >
+              @click="selectMenu('account')">
               账户列表
             </li>
             <li 
               :class="{ 'active': activeItem === 'order' }" 
-              @click="selectMenu('order')"
-            >
+              @click="selectMenu('order')">
               订单列表
             </li>
           </ul>
@@ -33,7 +31,7 @@
             控制台
             <span class="arrow">{{ showConsoleMenu ? '▼' : '▶' }}</span>
           </div>
-          
+      
           <ul v-if="showConsoleMenu" class="sub-menu">
             <li 
               :class="{ 'active': activeItem === 'permission' }" 
