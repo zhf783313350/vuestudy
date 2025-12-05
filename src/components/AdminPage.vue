@@ -73,11 +73,43 @@
           </ul>
         </li>
 
+        <li class="menu-item-FeeManage">
+          <div class="menu-title" @click="toggleFeeManagementMenu">
+            收费管理
+            <span class="arrow">{{ showFeeManagementMenu ? '▼' : '▶' }}</span>
+          </div>
+          <ul v-if="showFeeManagementMenu" class="sub-menu">
+            <li 
+              :class="{ 'active': activeItem === 'clientUserList' }" 
+              @click="selectMenu('clientUserList')"
+            >
+              客户列表
+            </li>
+          </ul>
+      <ul v-if="showFeeManagementMenu" class="sub-menu">
+            <li 
+              :class="{ 'active': activeItem === 'clientRechargeList' }" 
+              @click="selectMenu('clientRechargeList')"
+            >
+              充值列表
+            </li>
+          </ul>
+        <ul v-if="showFeeManagementMenu" class="sub-menu">
+            <li 
+              :class="{ 'active': activeItem === 'clientPackageList' }" 
+              @click="selectMenu('clientPackageList')"
+            >
+              套餐列表
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
-
     <!-- 右侧按钮：保持不变 -->
     <div class="right-actions">
+      <div class="user-info">
+        欢迎，<span class="username">{{ userAccount }}</span>
+      </div>
       <button class="logout-btn" @click="handleLogout">退出</button>
     </div>
   </div>
@@ -92,13 +124,18 @@ export default {
       showSubMenu: true,      // 推广管理
       showConsoleMenu: false, // 控制台
       showClientMenu: false,  // 客户端管理 (新增)
-      
+      showFeeManagementMenu: false, // 收费管理
       // 当前选中的菜单项ID
-      activeItem: 'account' 
+      activeItem: 'account' ,
+        userAccount: '' 
     };
+  },
+  mounted(){
+    this.userAccount = localStorage.getItem('userAccount') || '';
   },
   methods: {
     // 切换 推广管理
+    
     toggleSubMenu() {
       this.showSubMenu = !this.showSubMenu;
     },
@@ -110,7 +147,9 @@ export default {
     toggleClientMenu() {
       this.showClientMenu = !this.showClientMenu;
     },
-    
+        toggleFeeManagementMenu() {
+      this.showFeeManagementMenu = !this.showFeeManagementMenu;
+    },
     // 统一的选择菜单逻辑
     selectMenu(itemName) {
       this.activeItem = itemName;
@@ -148,8 +187,19 @@ export default {
   position: absolute;
   top: 20px;
   right: 30px; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
 }
-
+.user-info {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+.username {
+  font-weight: bold;
+  color: #333;
+}
 /* 增加一级菜单之间的间距 */
 .menu-item-spacing {
   margin-top: 15px; 

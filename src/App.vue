@@ -62,6 +62,7 @@ export default {
           alert('登录成功');
           this.redirectToAdmin = true;
           localStorage.setItem('isLoggedIn', 'true');
+          localStorage.setItem('userAccount', this.account);
         } else {
           alert('登录失败');
         }
@@ -71,6 +72,7 @@ export default {
         // 为了方便你测试，报错也暂时允许进入，正式版请删除下面两行
         this.redirectToAdmin = true;
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userAccount', this.account);
       }
     },
     async handleRegister() {
