@@ -103,6 +103,11 @@
 
       <!-- 右侧内容区域 -->
       <div class="content">
+        <!-- 页面头部 -->
+        <header class="page-header">
+          <h1>班级：{{ classID }} 学生名单列表</h1>
+        </header>
+
         <!-- 学生信息展示区域 -->
         <div v-if="students.length > 0">
           <table>
@@ -129,6 +134,11 @@
               </tr>
             </tbody>
           </table>
+          <div class="pagination">
+            <button @click="fetchStudentsList(currentPage - 1)" :disabled="currentPage === 1">上一页</button>
+            <span>第 {{ currentPage }} 页</span>
+            <button @click="fetchStudentsList(currentPage + 1)">下一页</button>
+          </div>
         </div>
       </div>
     </div>
@@ -154,7 +164,9 @@ export default {
       // 当前选中的菜单项ID
       activeItem: 'account' ,
         userAccount: '' ,
-      students: [] // 存储学生信息的数组
+      students: [], // 存储学生信息的数组
+      currentPage: 1, // 当前页码
+      classID: localStorage.getItem('classID') || '未知班级' // 班级ID
     };
   },
   mounted(){
@@ -190,7 +202,7 @@ export default {
     handleLogout() {
       this.$emit('logout');
     },
-    async fetchStudentsList() {
+    async fetchStudentsList(page = 1) {
   const rawClassID = localStorage.getItem('classID');
   console.log('从 localStorage 获取的原始 classID:', rawClassID);
 
@@ -206,9 +218,10 @@ export default {
   }
 
   try {
-    const response = await axios.post('http://47.115.39.175:8080/studentslist', { classID });
+    const response = await axios.post('http://47.115.39.175:8080/studentslist', { classID, page });
     if (response.status === 200) {
       this.students = response.data.data; // 确保从 data.data 中获取学生列表
+      this.currentPage = page; // 更新当前页码
       console.log('学生列表:', this.students);
     } else {
       console.error('获取学生列表失败:', response.data.message || '未知错误');
@@ -238,6 +251,13 @@ export default {
   height: 100vh;
 }
 
+.page-header {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
+
 .left-menu {
   width: 200px;
   background-color: #f4f4f4;
@@ -264,6 +284,28 @@ th, td {
 
 th {
   background-color: #f2f2f2;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #409eff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
 }
 
 .right-actions {
